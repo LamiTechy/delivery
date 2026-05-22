@@ -9,19 +9,14 @@ interface TrackingResultsProps {
 
 export default function TrackingResults({ data }: TrackingResultsProps) {
   const [paying, setPaying] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
-  const handlePayNow = async () => {
-    setPaying(true);
-    try {
-      // Replace this with a real payment flow or API call.
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      alert('Payment flow started for this delivery.');
-    } catch (error) {
-      console.error('Payment error:', error);
-      alert('Unable to start payment. Please try again later.');
-    } finally {
-      setPaying(false);
-    }
+  const handlePayNow = () => {
+    setShowPaymentModal(true);
+  };
+
+  const closeModal = () => {
+    setShowPaymentModal(false);
   };
   if (!data.success) {
     return (
@@ -95,12 +90,9 @@ export default function TrackingResults({ data }: TrackingResultsProps) {
               <button
                 type="button"
                 onClick={handlePayNow}
-                disabled={paying}
                 className="btn-primary-custom w-full"
               >
-                {paying
-                  ? 'Processing Payment...'
-                  : `Pay $${parseFloat(delivery.delivery_fee).toFixed(2)} Now`}
+                Pay ${parseFloat(delivery.delivery_fee).toFixed(2)} Now
               </button>
             </div>
           )}
@@ -204,6 +196,39 @@ export default function TrackingResults({ data }: TrackingResultsProps) {
           </div>
         </div>
       </div>
+
+      {/* Payment Modal */}
+      {showPaymentModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full"
+          >
+            <div className="text-center">
+              <h3 className="text-2xl text-secondary mb-4">Payment Information</h3>
+              <div className="mb-6">
+                <p className="text-grey mb-4">
+                  To complete payment for this delivery, please contact the sender directly.
+                </p>
+                <div className="bg-grey-light p-4 rounded-lg">
+                  <p className="font-semibold text-secondary mb-2">Sender Details:</p>
+                  <p className="text-grey"><strong>Name:</strong> {delivery.sender_name}</p>
+                  <p className="text-grey"><strong>Address:</strong> {delivery.sender_address}</p>
+                  <p className="text-grey"><strong>Amount Due:</strong> ${parseFloat(delivery.delivery_fee).toFixed(2)}</p>
+                </div>
+              </div>
+              <button
+                onClick={closeModal}
+                className="btn-primary-custom w-full"
+              >
+                Close
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </motion.div>
   );
 }
