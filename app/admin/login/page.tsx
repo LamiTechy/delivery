@@ -93,7 +93,7 @@ export default function AdminLogin() {
           </button>
 
           <div className="text-center">
-            <small className="text-grey">Default: admin / admin123</small>
+            <small className="text-grey"></small>
           </div>
 
           <div className="text-center">

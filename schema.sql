@@ -92,4 +92,4 @@ INSERT INTO tracking_history (delivery_id, status, location, description) VALUES
 (3, 'in_transit', 'Transit Hub - Cleveland, OH', 'In transit'),
 (3, 'out_for_delivery', 'Local Hub - Chicago, IL', 'Out for delivery'),
 (3, 'delivered', 'Delivered', 'Package delivered successfully'),
-(4, 'pending', 'Tech Hub - California', 'Package awaiting pickup');
+(4, 'pending', 'Tech Hub - California', 'Package received and waiting to be delivered');

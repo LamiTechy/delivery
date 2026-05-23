@@ -58,7 +58,7 @@ export async function POST(request: Request) {
     // Add initial tracking history
     await sql`
       INSERT INTO tracking_history (delivery_id, status, location, description)
-      VALUES (${delivery.id}, 'pending', ${data.current_location}, 'Package received and awaiting pickup')
+      VALUES (${delivery.id}, 'pending', ${data.current_location}, 'Package received and waiting to be delivered')
     `;
 
     return NextResponse.json(delivery);
